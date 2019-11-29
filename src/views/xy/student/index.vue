@@ -11,7 +11,7 @@
           </el-input>
         </el-col>
         <el-col :span="5">
-          <el-select v-model="search.classId" size="small"  clearable placeholder="根据班级搜索">
+          <el-select v-model="search.classId" size="small" clearable placeholder="根据班级搜索">
             <el-option
               v-for="item in classList"
               :key="item.id"
@@ -66,6 +66,7 @@
       </el-table>
 
       <el-pagination
+        background
         :current-page="page.start"
         :page-sizes="page.sizes"
         :page-size="page.size"

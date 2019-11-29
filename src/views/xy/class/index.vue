@@ -38,6 +38,7 @@
         </el-table-column>
       </el-table>
       <el-pagination
+        background
         :current-page="page.start"
         :page-sizes="page.sizes"
         :page-size="page.size"

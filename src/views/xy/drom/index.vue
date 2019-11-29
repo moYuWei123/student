@@ -38,6 +38,7 @@
         </el-table-column>
       </el-table>
       <el-pagination
+        background
         :current-page="page.start"
         :page-sizes="page.sizes"
         :page-size="page.size"
@@ -132,7 +133,7 @@ export default {
             background: "rgba(0, 0, 0, 0.7)"
           });
           dormApi.dormDel({ id: id }).then(res => {
-            // console.log(res);
+            console.log(res);
             this.getdormList();
             loading.close();
             if (res.code == true) {
@@ -181,4 +182,5 @@ export default {
     text-align: center;
   }
 }
+
 </style>
