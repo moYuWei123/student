@@ -94,9 +94,27 @@ export const constantRoutes = [
         name: 'xyClass',
         component: () => import('@/views/xy/class'),
         meta: { title: '班级管理', icon: 'class' }
+      },
+      {
+        path: 'drom',
+        name: 'xyDrom',
+        component: () => import('@/views/xy/drom'),
+        meta: { title: '宿舍管理', icon: 'drom' }
       }
     ]
   },
+  {
+    path: '/news',
+    component: Layout,
+    redirect: '/newlist',
+    children: [{
+      path: 'newlist',
+      name: 'newlist',
+      component: () => import('@/views/news/newlist/index'),
+      meta: { title: '新闻', icon: 'news' }
+    }]
+  },
+  
 
   {
     path: '/form',

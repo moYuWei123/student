@@ -1,12 +1,12 @@
 <template>
-  <div class="class-main">
+  <div class="drom-main">
     <el-card class="card" shadow="hover">
       <div slot="header">
         <span>搜索</span>
       </div>
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input placeholder="根据名字搜索" clearable size="small" v-model="search.className">
+          <el-input placeholder="根据名字搜索" clearable size="small" v-model="search.name">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
         </el-col>
@@ -21,14 +21,14 @@
 
     <el-card class="card" shadow="hover">
       <div slot="header">
-        <el-button type="primary" size="small" @click="goAdd">添加班级</el-button>
+        <el-button type="primary" size="small" @click="goAdd">添加宿舍</el-button>
       </div>
-      <el-table v-loading="loading" :data="classList" style="width: 100%" border>
+      <el-table :data="dormList" style="width: 100%" v-loading="loading" border>
         <el-table-column fixed type="index" label="id" width="50" />
-        <el-table-column prop="className" label="班级名称"></el-table-column>
-        <el-table-column prop="startTime" label="开班时间"></el-table-column>
+        <el-table-column prop="name" label="宿舍名称"></el-table-column>
+        <el-table-column prop="startTime" label="开始时间"></el-table-column>
         <el-table-column prop="endTime" label="结束时间"></el-table-column>
-        <el-table-column prop="desc" label="班级详情"></el-table-column>
+        <el-table-column prop="bak" label="宿舍详情"></el-table-column>
         <el-table-column fixed="right" label="操作">
           <template slot-scope="scope">
             <!-- <el-button size="small" round @click.native="seedetail(scope.row)">查看</el-button> -->
@@ -48,12 +48,12 @@
         @current-change="handleCurrentChange"
       />
     </el-card>
-    <Detail ref="detail" @refresh-list="getclassList()"></Detail>
+    <Detail ref="detail" @refresh-list="getdormList()"></Detail>
   </div>
 </template>
 
 <script>
-import classApi from "@/api/xy/clazz.js";
+import dormApi from "@/api/xy/dorm.js";
 import Detail from "./detail";
 
 export default {
@@ -61,8 +61,7 @@ export default {
   data() {
     return {
       loading: false,
-
-      classList: [],
+      dormList: [],
       search: {},
       page: {
         start: 1,
@@ -75,50 +74,49 @@ export default {
   },
   computed: {},
   created() {
-    this.getclassList();
+    this.getdormList();
   },
   mounted() {},
   watch: {},
   methods: {
     clean() {
       this.search = {};
-      this.getclassList();
+      this.getdormList();
     },
     doSearch() {
       //搜索
       this.page.start = 1;
-      this.getclassList();
+      this.getdormList();
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.page.limit = val;
-      this.getclassList();
+      this.getdormList();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.page.start = val;
-      this.getclassList();
+      this.getdormList();
     },
-    getclassList() {
+    getdormList() {
       this.loading = true;
-
       var params = {
         start: this.page.start,
         limit: this.page.limit,
         ...this.search
       };
-      classApi.classList({ ...params }).then(res => {
-        this.classList = res.data.list;
+      dormApi.dormList({ ...params }).then(res => {
+        this.dormList = res.data.list;
         this.page.size = res.data.pageSize;
         this.page.total = res.data.totalRow;
         this.loading = false;
       });
     },
     goEdit(id) {
-      this.$refs.detail.openClassDialog(id);
+      this.$refs.detail.opendromDialog(id);
     },
     goAdd() {
-      this.$refs.detail.openClassDialog();
+      this.$refs.detail.opendromDialog();
     },
     del(id) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -133,9 +131,9 @@ export default {
             spinner: "el-icon-loading",
             background: "rgba(0, 0, 0, 0.7)"
           });
-          classApi.classDel({ id: id }).then(res => {
+          dormApi.dormDel({ id: id }).then(res => {
             // console.log(res);
-            this.getclassList();
+            this.getdormList();
             loading.close();
             if (res.code == true) {
               this.$message({
@@ -165,12 +163,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.class-main {
+.drom-main {
   .h2 {
     text-align: center;
   }
   .card {
     margin: 20px;
+  }
+}
+</style>
+<style lang="scss">
+.el-table {
+  td {
+    text-align: center;
+  }
+  th {
+    text-align: center;
   }
 }
 </style>
