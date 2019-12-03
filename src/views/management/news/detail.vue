@@ -148,14 +148,10 @@ export default {
       if (id) {
         newsApi.newsdetail({ id }).then(res => {
           console.log(res.data);
-          if (res.data.content1) {
-            if (res.data.type == "0") {
-              this.$refs.tin.setContent(res.data.content1);
-            } else if (res.data.type == "1") {
-              this.$refs.mk.setValue(res.data.content1);
-            }
-          }
           this.form = res.data;
+
+          this.$refs.tin.setContent(res.data.content1);
+
           //因为富文本编辑器不是动态绑定的,所以先获取值然后再赋值数据不会丢失
         });
       }

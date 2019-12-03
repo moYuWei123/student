@@ -52,24 +52,17 @@
                   <el-button size="mini">查看</el-button>
 
                   <el-button size="mini" type="primary" @click="edit(item.id)">编辑</el-button>
-                  <el-button size="mini" @click="del(item.id)" type="danger">删除</el-button>
+                  <el-button size="mini
+                  " @click="del(item.id)" type="danger">删除</el-button>
                 </el-button-group>
               </el-col>
             </el-card>
           </el-row>
         </el-col>
       </el-row>
-       <el-pagination
-        background
-        :current-page="page.start"
-        :page-sizes="page.sizes"
-        :page-size="page.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total"
-        style="text-align:right;margin-top:20px;"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+     
+
+       <pages @refresh-list="getnewsList" :page="page"></pages>
     </el-card>
     <newsDetail @refresh-list="getnewsList()" ref="newsDetail"></newsDetail>
   </div>
@@ -78,22 +71,18 @@
 <script>
 import newsApi from "@/api/news/index";
 import newsDetail from "./detail";
-
+import pages from '@/components/page'
+import pageMixin from '@/mixins/pageMixin'
 export default {
   props: {},
+  mixins:[pageMixin],//混合这是分页设置
   data() {
     return {
       search: {},
       tinContent: "<h2>我是你爸爸</h2>",
       newsList: [],
       loading:true,
-       page: {
-        start: 1,
-        limit: 10,
-        sizes: [10, 20, 30, 40],
-        size: 0,
-        total: 0
-      }
+       
     };
   },
   computed: {},
@@ -103,16 +92,7 @@ export default {
   mounted() {},
   watch: {},
   methods: {
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.page.limit = val;
-      this.getnewsList();
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.page.start = val;
-      this.getnewsList();
-    },
+   
     openNewDetail() {
       this.$refs.newsDetail.openClassDialog();
     },
@@ -185,7 +165,8 @@ export default {
   },
 
   components: {
-    newsDetail
+    newsDetail,
+    pages
   }
 };
 </script>
