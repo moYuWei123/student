@@ -26,6 +26,11 @@
       <el-table :data="dormList" style="width: 100%" v-loading="loading" border>
         <el-table-column fixed type="index" label="id" width="50" />
         <el-table-column prop="name" label="宿舍名称"></el-table-column>
+        <el-table-column prop="type" label="宿舍类型">
+          <template slot-scope="scope">
+            <span >{{ scope.row.type==0?'男':'女' }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="startTime" label="开始时间"></el-table-column>
         <el-table-column prop="endTime" label="结束时间"></el-table-column>
         <el-table-column prop="bak" label="宿舍详情"></el-table-column>
@@ -182,5 +187,4 @@ export default {
     text-align: center;
   }
 }
-
 </style>

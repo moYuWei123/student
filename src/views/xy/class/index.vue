@@ -26,28 +26,26 @@
       <el-table v-loading="loading" :data="classList" style="width: 100%" border>
         <el-table-column fixed type="index" label="id" width="50" />
         <el-table-column prop="className" label="班级名称"></el-table-column>
+         <el-table-column prop="type" label="宿舍类型">
+          <template slot-scope="scope">
+            <span >{{ scope.row.type==0?'前端':'ui' }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="startTime" label="开班时间"></el-table-column>
         <el-table-column prop="endTime" label="结束时间"></el-table-column>
         <el-table-column prop="desc" label="班级详情"></el-table-column>
         <el-table-column fixed="right" label="操作">
           <template slot-scope="scope">
             <!-- <el-button size="small" round @click.native="seedetail(scope.row)">查看</el-button> -->
-            <el-button size="small" round type="primary" @click.native="goEdit(scope.row.id)">编辑</el-button>
+            <el-button size="small" round type="primary" @click.native="goEdit(scope.row.id)">
+              编辑
+            </el-button>
             <el-button size="small" round type="danger" @click.native="del(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination
-        background
-        :current-page="page.start"
-        :page-sizes="page.sizes"
-        :page-size="page.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total"
-        style="text-align:right;margin-top:20px;"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+<pages @refresh-list="getclassList" :page="page"></pages>
+
     </el-card>
     <Detail ref="detail" @refresh-list="getclassList()"></Detail>
   </div>
@@ -56,22 +54,20 @@
 <script>
 import classApi from "@/api/xy/clazz.js";
 import Detail from "./detail";
+import pages from '@/components/page'
+import pageMixin from '@/mixins/pageMixin'
 
 export default {
   props: {},
+  mixins:[pageMixin],
+
   data() {
     return {
       loading: false,
 
       classList: [],
       search: {},
-      page: {
-        start: 1,
-        limit: 10,
-        sizes: [10, 20, 30, 40],
-        size: 0,
-        total: 0
-      }
+    
     };
   },
   computed: {},
@@ -88,16 +84,6 @@ export default {
     doSearch() {
       //搜索
       this.page.start = 1;
-      this.getclassList();
-    },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.page.limit = val;
-      this.getclassList();
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-      this.page.start = val;
       this.getclassList();
     },
     getclassList() {
@@ -159,8 +145,10 @@ export default {
         });
     }
   },
+  
   components: {
-    Detail
+    Detail,
+     pages
   }
 };
 </script>
@@ -172,6 +160,16 @@ export default {
   }
   .card {
     margin: 20px;
+  }
+}
+</style>
+<style lang="scss">
+.el-table {
+  td {
+    text-align: center;
+  }
+  th {
+    text-align: center;
   }
 }
 </style>

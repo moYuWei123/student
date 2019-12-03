@@ -107,6 +107,7 @@ export const constantRoutes = [
     path: '/news',
     component: Layout,
     redirect: '/newlist',
+
     children: [{
       path: 'newlist',
       name: 'newlist',
@@ -114,7 +115,28 @@ export const constantRoutes = [
       meta: { title: '新闻', icon: 'news' }
     }]
   },
-  
+  {
+    path: '/management',
+    component: Layout,
+    redirect: '/management/img',
+    meta: { title: '素材管理', icon: 'management' },
+
+    children: [{
+      path: 'img',
+      name: 'managementImg',
+      component: () => import('@/views/management/img/index'),
+      meta: { title: '图片管理', icon: 'img' }
+    },
+    {
+      path: 'news',
+      name: 'managementNews',
+      component: () => import('@/views/management/news/index'),
+      meta: { title: '文章管理', icon: 'news' }
+    },
+
+    ]
+  },
+
 
   {
     path: '/form',

@@ -11,8 +11,8 @@
           <el-col :span="12">
             <el-form-item label="宿舍类型">
               <el-select v-model="form.type" placeholder="选择宿舍类型">
-                <el-option label="男" value="0"></el-option>
-                <el-option label="女" value="1"></el-option>
+                <el-option label="男" value=0></el-option>
+                <el-option label="女" value=1></el-option>
               </el-select>
             </el-form-item>
           </el-col>
