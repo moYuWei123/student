@@ -70,10 +70,10 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
+  height: 60px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: rgb(8, 124, 109);
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
@@ -96,7 +96,7 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    line-height: 60px;
 
     &:focus {
       outline: none;
@@ -104,10 +104,10 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 4px 8px;
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      color: #f3f4f7;
       vertical-align: text-bottom;
 
       &.hover-effect {
@@ -129,9 +129,9 @@ export default {
 
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
         }
 
         .el-icon-caret-bottom {
