@@ -17,7 +17,7 @@
           <svg-icon icon-class="user" />
         </span>
         <el-input
-        size="small"
+          size="small"
           ref="username"
           v-model="loginForm.username"
           placeholder="Username"
@@ -33,7 +33,7 @@
           <svg-icon icon-class="password" />
         </span>
         <el-input
-         size="small"
+          size="small"
           :key="passwordType"
           ref="password"
           v-model="loginForm.password"
@@ -61,7 +61,8 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
-
+import loginApi from "@/api/login/index";
+import { setToken } from "@/utils/myAuth";
 export default {
   name: "Login",
   data() {
@@ -82,7 +83,7 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "111111"
+        password: "123456"
       },
       loginRules: {
         username: [
@@ -117,6 +118,29 @@ export default {
       });
     },
     handleLogin() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading = true;
+          loginApi.doLogin(this.loginForm).then(res => {
+            if (res.code == "S") {
+              // var { sessionId, userId } = res;
+              // setToken({ sessionId, userId });
+
+              loginApi.getUserInfo().then(res => {
+                 this.loading = false;
+                console.log(res);
+                setToken(res);
+                this.$router.push("/");
+              });
+            } else {
+              this.$message.error("用户名或者密码错误");
+            }
+           
+          });
+        }
+      });
+    },
+    handleLogin2() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
@@ -155,7 +179,6 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
- 
   .el-input {
     display: inline-block;
     height: 47px;
@@ -173,7 +196,7 @@ $cursor: #fff;
 
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color:black !important;
+        -webkit-text-fill-color: black !important;
       }
     }
   }
@@ -203,16 +226,15 @@ $light_gray: #eee;
   overflow: hidden;
 
   .login-form {
-   
     position: relative;
     width: 520px;
     max-width: 100%;
-   padding: 35px 35px;
- border-radius:4px; 
-   
+    padding: 35px 35px;
+    border-radius: 4px;
+
     overflow: hidden;
     background-color: white;
-    
+
     margin: 150px auto;
     overflow: hidden;
   }
@@ -242,7 +264,7 @@ $light_gray: #eee;
 
     .title {
       font-size: 30px;
-      color:#0084ff;;
+      color: #0084ff;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
